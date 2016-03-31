@@ -1,8 +1,11 @@
 package test;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 import pipelineModel.model.Pipeline;
+import pipelineModel.model.Pipeline.Vector;
 import pipelineModel.model.Triple;
 
 public class Main {
@@ -11,36 +14,18 @@ public class Main {
 		LinkedList<Triple> outFail = new LinkedList<>();
 		int ErrorCount = 0;
 		while (ErrorCount < 5) {
-			Pipeline line = new Pipeline(1, 1, 4);
-			Triple in = null;
-			for (Triple trip : line.getInput()) {
-				in = trip;
-			}
+			Pipeline line = new Pipeline(5, 2, 4);
+			List<Triple> in = line.getInput();
 			line.run();
-			Triple out = null;
-			for (Triple trip : line.getResult()) {
-				out = trip;
+			List<Triple> out = line.getResult();
+			ListIterator<Triple> it = in.listIterator();
+			while(it.hasNext()){
+				int index = it.nextIndex();
+				if((in.get(index).getDivident()/in.get(index).getDivision()==in.get(index).getQuotient())){
+					ErrorCount++;
+				}
+				it.next();
 			}
-			if ((int) (in.getDivident() / in.getDivision()) != (out.getQuotient())) {
-				inFail.add(in);
-				outFail.add(out);
-				ErrorCount++;
-			}
-		}
-		for (
-
-		Triple trip1 : inFail)
-
-		{
-			System.out.println(trip1);
-		}
-		System.out.println("-------------");
-		for (
-
-		Triple trip1 : outFail)
-
-		{
-			System.out.println(trip1);
 		}
 	}
 }
